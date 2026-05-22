@@ -1,6 +1,6 @@
 # Canvas 27
 
-Proyecto basado en los archivos de **`Archivos/`**, con login web, captura por cámara y API Python (FastAPI) + MySQL.
+Proyecto basado en un frontendn hecho por mi con login web, captura por cámara y API Python (FastAPI) + MySQL. (DESARROLLO DE IA con CURSOR)
 
 ## Estructura
 
