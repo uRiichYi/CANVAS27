@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro — Canvas 27</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="utility/LogoCanvas27.png" type="image/png">
+</head>
+<body class="auth-page" data-page="register">
+
+    <div class="auth-page__bg"></div>
+    <div class="auth-page__grain" aria-hidden="true"></div>
+
+    <main class="auth-page__content container px-3">
+        <div class="row justify-content-center min-vh-100 align-items-center py-5">
+            <div class="col-12 col-lg-10 col-xl-9">
+                <div class="auth-shell">
+                    <div class="auth-shell__aside d-none d-lg-flex">
+                        <p class="auth-shell__eyebrow">Únete a la comunidad</p>
+                        <h2 class="auth-shell__aside-title">Expresa<br>tu <span>arte</span></h2>
+                        <p class="auth-shell__aside-text">Crea tu cuenta con el nombre que usarás como artista. Después podrás capturar obras y verlas en la galería.</p>
+                        <ul class="auth-shell__features">
+                            <li>Un solo formulario</li>
+                            <li>Tu nombre visible en la galería</li>
+                            <li>Captura y sube desde el móvil</li>
+                        </ul>
+                    </div>
+
+                    <div class="auth-card card border-0">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="text-center mb-4">
+                                <a href="index.html" class="auth-card__logo d-inline-block mb-3">
+                                    <img src="utility/LogoCanvas27W.svg" alt="Canvas 27" width="120" height="40">
+                                </a>
+                                <h1 class="auth-card__title mb-1">CANVAS <span class="text-accent">27</span></h1>
+                                <p class="auth-card__subtitle mb-0">Crear cuenta de artista</p>
+                            </div>
+
+                            <div id="register-alert" class="alert d-none" role="alert"></div>
+
+                            <form id="register-form" novalidate>
+                                <div class="mb-3">
+                                    <label for="register-name" class="form-label">Nombre de artista</label>
+                                    <div class="input-group-canvas">
+                                        <span class="input-group-canvas__icon" aria-hidden="true">◆</span>
+                                        <input
+                                            type="text"
+                                            class="form-control canvas-input"
+                                            id="register-name"
+                                            name="full_name"
+                                            placeholder="Ej. Alex Rivera"
+                                            maxlength="100"
+                                            required
+                                            autocomplete="name"
+                                        >
+                                    </div>
+                                    <p class="form-hint mt-2 text-start">Así aparecerás en la galería y en tus obras.</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-email" class="form-label">Correo electrónico</label>
+                                    <div class="input-group-canvas">
+                                        <span class="input-group-canvas__icon" aria-hidden="true">@</span>
+                                        <input
+                                            type="email"
+                                            class="form-control canvas-input"
+                                            id="register-email"
+                                            name="email"
+                                            placeholder="tu@correo.com"
+                                            autocomplete="email"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="register-password" class="form-label">Contraseña</label>
+                                    <div class="input-group-canvas">
+                                        <span class="input-group-canvas__icon" aria-hidden="true">✦</span>
+                                        <input
+                                            type="password"
+                                            class="form-control canvas-input"
+                                            id="register-password"
+                                            name="password"
+                                            placeholder="Mínimo 6 caracteres"
+                                            autocomplete="new-password"
+                                            required
+                                            minlength="6"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="register-password-confirm" class="form-label">Confirmar contraseña</label>
+                                    <div class="input-group-canvas">
+                                        <span class="input-group-canvas__icon" aria-hidden="true">✦</span>
+                                        <input
+                                            type="password"
+                                            class="form-control canvas-input"
+                                            id="register-password-confirm"
+                                            name="password_confirm"
+                                            placeholder="Repite tu contraseña"
+                                            autocomplete="new-password"
+                                            required
+                                            minlength="6"
+                                        >
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-canvas w-100 btn-lg auth-submit" id="register-submit">
+                                    <span class="auth-submit__text">Crear cuenta</span>
+                                </button>
+                            </form>
+
+                            <p class="text-center mt-4 mb-0 auth-card__footer">
+                                ¿Ya tienes cuenta?
+                                <a href="login.html" class="link-accent fw-semibold">Iniciar sesión</a>
+                            </p>
+                            <p class="text-center mt-2 mb-0">
+                                <a href="index.html" class="link-muted">← Volver al inicio</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/Register.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

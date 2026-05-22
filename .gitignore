@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+env/
+venv/
+
+# Carpeta de subidas (para no subir tus fotos de prueba locales)
+backend/uploads/
+uploads/
+
+# Sistema
+.DS_Store
+Thumbs.db
