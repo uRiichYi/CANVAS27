@@ -1,0 +1,11 @@
+backend/venv/
+backend/__pycache__/
+backend/.env
+uploads/photos/*
+!uploads/photos/.gitkeep
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+*.env

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas 27 | Perfil de Artista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="artists.css">
+    <link rel="icon" href="logoCanvas27.png" type="image/png">
+</head>
+<body class="profile-page">
+
+    <header id="navbar-solid">
+        <nav>
+            <div class="logo-container">
+                <a href="index.html">
+                    <img src="LogoCanvas27W.svg" alt="Canvas 27 Logo">
+                </a>
+            </div>
+
+            <label for="menu-check" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <ul>
+                <li><a href="artist.html">Artist</a></li>
+                <li><a href="gallery.html" class="nav-active">Gallery</a></li>
+                <li><a href="#">About Artist</a></li>
+                <li><a href="#">Moodboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="profile-header-container">
+        <div class="profile-banner"></div>
+        
+        <div class="profile-info-box">
+            <div class="profile-avatar">
+                <img src="https://imgs.search.brave.com/-D5KpYNEl5_rLRFGqIjansJm7s0d20Md9JmMNGb31Fo/rs:fit:860:0:0:0/g:ce/aHR0cDovL2Vtb3Bm/cC5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjYvMDMvc2F0/b3J1LWdvam8tcGZw/LWJsYWNrLWFuZC13/aGl0ZS0xLndlYnA" alt="Foto de Perfil del Artista">
+            </div>
+            <h1 class="artist-name">Alex Rivera</h1>
+            <p class="artist-bio">Diseñador y artista visual enfocado en Anime, me gusta hacer fan arts de personajes que amo, cuento con diferentes estilosy me encanta hacer fondos. Artista principal de CANVAS 27</p>
+            
+            <button class="mi-arte-btn">Mi Arte</button>
+        </div>
+    </section>
+
+    <main class="content-wrapper">
+        <section class="gallery-masonry">
+            <div class="art-card">
+                <img src="https://imgs.search.brave.com/1JcItALlHooGSYHngeJmUIViGgi0yk2PBBCSs3P4qXA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvYW5pbWUtNGst/cGljdHVyZXMtcTFj/Zzg5bml2MzE5bGQx/YS5qcGc" alt="Obra">
+            </div>
+            <div class="art-card">
+                <img src="https://wallpaperaccess.com/full/12883.jpg" alt="Obra">
+            </div>
+            <div class="art-card">
+                <img src="https://wallpaperaccess.com/full/12885.jpg" alt="Obra">
+            </div>
+            <div class="art-card">
+                <img src="https://imgs.search.brave.com/MNv7np2NBpZU1A5JSqhO6IAFSt1O0HlA7euLLR3t6yQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvNDEz/MTk2Mi5qcGc" alt="Obra">
+            </div>
+            <div class="art-card">
+                <img src="https://imgs.search.brave.com/HHbM3m3viuIORQUOGvLqcKIoljw3tBGbu9iVAZdnPec/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvaGQvYW5p/bWUtZmFuYXJ0LTE4/NDF2enduejE0cTho/dnUuanBn" alt="Obra">
+            </div>
+            <div class="art-card">
+                <img src="https://imgs.search.brave.com/LSxdeMqiw-Z3-a8mJKS1S7q0oYxtfJUJ_yzoKlfT_2c/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXM3LmFscGhhY29k/ZXJzLmNvbS8xMzUv/dGh1bWJiaWctMTM1/MzA5Ny53ZWJw" alt="Obra">
+            </div>
+            <div class="art-card">
+                <img src="https://imgs.search.brave.com/4HwPX4U8YitBoDMPdG4tIRZ4wZ2n1vsBDW6RhqiZ-1g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzQ5LzYy/L2YzLzQ5NjJmMzdk/YzQwMTNmMWNkZmZm/ZTg0Y2FhODlkN2U4/LmpwZw" alt="Obra">
+            </div>
+            <div class="art-card">
+                <img src="https://imgs.search.brave.com/E-lfyQlfhsNjr72NZNof1xec6G7A7clvBpLIUHGPTP0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93MC5w/ZWFrcHguY29tL3dh/bGxwYXBlci84OTgv/OTIvSEQtd2FsbHBh/cGVyLWFuaW1lLWFu/aW1lLWdpcmxzLWRp/Z2l0YWwtYXJ0LWFy/dHdvcmstcG9ydHJh/aXQtZGlzcGxheS12/ZXJ0aWNhbC0yZC10/aHVtYm5haWwuanBn" alt="Obra">
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
