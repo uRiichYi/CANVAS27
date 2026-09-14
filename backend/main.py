@@ -12,17 +12,20 @@ from sqlalchemy.orm import Session
 from database import Base, engine, get_db
 from models import Artist, Photo
 
+# Crea las tablas si no existen en PostgreSQL/Supabase
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Canvas 27 API")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-UPLOAD_ROOT = Path(__file__).resolve().parent.parent / "uploads"
+# Configuración de almacenamiento local
+UPLOAD_ROOT = Path(__file__).resolve().parent / "uploads"
 AVATAR_DIR = UPLOAD_ROOT / "avatars"
 PHOTO_DIR = UPLOAD_ROOT / "photos"
 AVATAR_DIR.mkdir(parents=True, exist_ok=True)
 PHOTO_DIR.mkdir(parents=True, exist_ok=True)
 
+# Configuración de CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -31,12 +34,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Servidor de archivos estáticos para previsualizaciones
 app.mount("/uploads", StaticFiles(directory=str(UPLOAD_ROOT)), name="uploads")
 
 
+# Schemas Pydantic
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
+
+
+class RegisterRequest(BaseModel):
+    email: EmailStr
+    password: str
+    full_name: str
 
 
 def get_artist_from_token(authorization: str | None, db: Session) -> Artist:
@@ -58,9 +69,6 @@ def get_artist_from_token(authorization: str | None, db: Session) -> Artist:
     return artist
 
 
-# ---------------------------------------------------------
-# ENDPOINT 1: Registro Inicial (Solo temporales y credenciales)
-# ---------------------------------------------------------
 def _is_image_upload(upload: UploadFile) -> bool:
     content_type = (upload.content_type or "").lower()
     if content_type.startswith("image/"):
@@ -71,16 +79,14 @@ def _is_image_upload(upload: UploadFile) -> bool:
     return False
 
 
-@app.post("/register")
-def register_artist(
-    email: str = Form(...),
-    password: str = Form(...),
-    full_name: str = Form(...),
-    temp_name: str = Form(None),
-    db: Session = Depends(get_db),
-):
-    email = email.strip().lower()
-    name = full_name.strip() or (temp_name.strip() if temp_name else "")
+# ---------------------------------------------------------
+# ENDPOINT 1: Registro de Usuarios (Formato JSON)
+# ---------------------------------------------------------
+@app.post("/api/register")
+def register_artist(payload: RegisterRequest, db: Session = Depends(get_db)):
+    email = payload.email.strip().lower()
+    name = payload.full_name.strip()
+
     if not name:
         raise HTTPException(status_code=400, detail="El nombre de artista es obligatorio")
 
@@ -88,7 +94,7 @@ def register_artist(
     if db_artist:
         raise HTTPException(status_code=400, detail="El correo ya está registrado")
 
-    hashed_password = pwd_context.hash(password)
+    hashed_password = pwd_context.hash(payload.password)
     new_artist = Artist(
         email=email,
         password_hash=hashed_password,
@@ -108,7 +114,7 @@ def register_artist(
 
 
 # ---------------------------------------------------------
-# ENDPOINT 2: SetupProfile (Guarda la info definitiva y la foto)
+# ENDPOINT 2: SetupProfile (Opcional para actualizar foto)
 # ---------------------------------------------------------
 @app.post("/setup-profile")
 def setup_profile(
@@ -141,7 +147,7 @@ def setup_profile(
 
 
 # ---------------------------------------------------------
-# ENDPOINT 3: Inicio de sesión (validación web)
+# ENDPOINT 3: Inicio de sesión
 # ---------------------------------------------------------
 @app.post("/api/login")
 def login(payload: LoginRequest, db: Session = Depends(get_db)):
@@ -161,32 +167,30 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
 
 
 # ---------------------------------------------------------
-# ENDPOINT 4: Subida de foto desde la cámara web
+# ENDPOINT 4: Subida de fotos de la Galería
 # ---------------------------------------------------------
 @app.post("/api/photos")
 async def upload_photo(
     request: Request,
-    photo: UploadFile = File(...),
+    file: UploadFile = File(...),
     title: str | None = Form(None),
-    latitude: str | None = Form(None),
-    longitude: str | None = Form(None),
     db: Session = Depends(get_db),
 ):
     artist = get_artist_from_token(request.headers.get("Authorization"), db)
 
-    if not _is_image_upload(photo):
-        raise HTTPException(status_code=400, detail="El archivo debe ser una imagen")
+    if not _is_image_upload(file):
+        raise HTTPException(status_code=400, detail="El archivo debe ser una imagen válida")
 
-    extension = Path(photo.filename or "capture.jpg").suffix.lower()
+    extension = Path(file.filename or "artwork.jpg").suffix.lower()
     if extension not in (".jpg", ".jpeg", ".png", ".webp", ".gif"):
         extension = ".jpg"
 
     safe_name = f"{artist.id}_{uuid.uuid4().hex}{extension}"
     destination = PHOTO_DIR / safe_name
 
-    photo.file.seek(0)
+    file.file.seek(0)
     with destination.open("wb") as buffer:
-        shutil.copyfileobj(photo.file, buffer)
+        shutil.copyfileobj(file.file, buffer)
 
     if not destination.exists() or destination.stat().st_size == 0:
         raise HTTPException(status_code=400, detail="La imagen llegó vacía al servidor")
@@ -196,29 +200,29 @@ async def upload_photo(
         artist_id=artist.id,
         title=title.strip() if title else None,
         file_path=relative_path,
-        latitude=latitude.strip() if latitude else None,
-        longitude=longitude.strip() if longitude else None,
+        latitude=None,
+        longitude=None,
     )
     db.add(record)
     db.commit()
     db.refresh(record)
 
     return {
-        "message": "Foto guardada correctamente",
+        "message": "Obra guardada correctamente",
         "photo": {
             "id": record.id,
             "title": record.title,
             "file_path": record.file_path,
-            "latitude": record.latitude,
-            "longitude": record.longitude,
             "url": f"/uploads/{record.file_path}",
         },
     }
 
 
+# ---------------------------------------------------------
+# ENDPOINT 5: Galería Dinámica
+# ---------------------------------------------------------
 @app.get("/api/photos/gallery")
 def list_gallery_photos(db: Session = Depends(get_db)):
-    """Lista todas las fotos subidas para mostrar en la galería web."""
     rows = (
         db.query(Photo, Artist)
         .join(Artist, Photo.artist_id == Artist.id)
@@ -232,8 +236,6 @@ def list_gallery_photos(db: Session = Depends(get_db)):
                 "id": photo.id,
                 "title": photo.title or "Sin título",
                 "file_path": photo.file_path,
-                "latitude": photo.latitude,
-                "longitude": photo.longitude,
                 "url": f"/uploads/{photo.file_path}",
                 "created_at": photo.created_at.isoformat() if photo.created_at else None,
                 "artist_name": artist.full_name or artist.temp_name or artist.email,
