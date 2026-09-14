@@ -26,7 +26,7 @@
         formData.append('password', password);
         formData.append('full_name', name.trim());
 
-        const response = await fetch(`${API_BASE()}api/register`, {
+        const response = await fetch(`${API_BASE()}/api/register`, {
             method: 'POST',
             body: formData,
         });
