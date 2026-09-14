@@ -1,7 +1,8 @@
 /**
  * Canvas 27 — Frontend (JavaScript vanilla)
  */
-const API_BASE_URL = 'https://canvas27.onrender.com/';
+// Removida la diagonal final para evitar doble slash // en las peticiones fetch
+const API_BASE_URL = 'https://canvas27.onrender.com';
 window.API_BASE_URL = API_BASE_URL;
 
 const TOKEN_KEY = 'canvas27_token';
@@ -239,7 +240,9 @@ async function initGalleryPage() {
             badge.textContent = 'Subida';
 
             const img = document.createElement('img');
-            img.src = `${API_BASE_URL}${photo.url}`;
+            // Formateo limpio para evitar doble / en la URL de la imagen
+            const imageUrl = photo.url.startsWith('/') ? photo.url : `/${photo.url}`;
+            img.src = `${API_BASE_URL}${imageUrl}`;
             img.alt = photo.title || 'Obra subida';
             img.loading = 'lazy';
             img.onerror = () => {
