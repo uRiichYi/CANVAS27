@@ -1,7 +1,7 @@
 /**
  * Canvas 27 — Frontend (JavaScript vanilla)
  */
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const API_BASE_URL = 'https://canvas27.onrender.com/';
 window.API_BASE_URL = API_BASE_URL;
 
 const TOKEN_KEY = 'canvas27_token';
