@@ -21,23 +21,31 @@
     }
 
     async function submitRegistration({ name, email, password }) {
-        const formData = new FormData();
-        formData.append('email', email.trim().toLowerCase());
-        formData.append('password', password);
-        formData.append('full_name', name.trim());
+        // Estructura JSON que coincide con el esquema RegisterRequest de FastAPI
+        const payload = {
+            email: email.trim().toLowerCase(),
+            password: password,
+            full_name: name.trim()
+        };
 
         const response = await fetch(`${API_BASE()}/api/register`, {
             method: 'POST',
-            body: formData,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload),
         });
 
         const data = await response.json().catch(() => ({}));
+
         if (!response.ok) {
-            throw new Error(
-                typeof data.detail === 'string'
-                    ? data.detail
-                    : 'No se pudo completar el registro.'
-            );
+            let errorMsg = 'No se pudo completar el registro.';
+            if (typeof data.detail === 'string') {
+                errorMsg = data.detail;
+            } else if (Array.isArray(data.detail)) {
+                errorMsg = data.detail.map((d) => d.msg || d).join(', ');
+            }
+            throw new Error(errorMsg);
         }
         return data;
     }
