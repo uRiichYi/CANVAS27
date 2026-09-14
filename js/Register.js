@@ -2,7 +2,7 @@
  * Register.js — Registro en un solo paso (JavaScript vanilla)
  */
 (function (global) {
-    const API_BASE = () => global.API_BASE_URL || 'http://127.0.0.1:8000';
+    const API_BASE = () => global.API_BASE_URL || 'https://canvas27.onrender.com';
 
     function validateRegister({ name, email, password, passwordConfirm }) {
         if (!name?.trim()) {
